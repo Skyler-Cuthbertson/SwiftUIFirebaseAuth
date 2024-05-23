@@ -13,17 +13,23 @@ public struct SignInWithAppleButtonView: View {
     public let style: ASAuthorizationAppleIDButton.Style
     public let cornerRadius: CGFloat
     public let height: CGFloat?
+    private let action: () -> Void
+
     
     public init(
         type: ASAuthorizationAppleIDButton.ButtonType = .signIn,
         style: ASAuthorizationAppleIDButton.Style = .black,
         cornerRadius: CGFloat = 15,
-        height: CGFloat? = 55
+        height: CGFloat? = 55,
+        action: @escaping () -> Void
+
     ) {
         self.type = type
         self.style = style
         self.cornerRadius = cornerRadius
         self.height = height
+        self.action = action
+
 
     }
     
