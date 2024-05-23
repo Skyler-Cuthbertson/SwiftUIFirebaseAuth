@@ -1,7 +1,7 @@
 import XCTest
-@testable import SwiftfulFirebaseAuth
+@testable import SwiftfUIFirebaseAuth
 
-final class SwiftfulFirebaseAuthTests: XCTestCase {
+final class SwiftfUIFirebaseAuthTests: XCTestCase {
     func testExample() throws {
         // XCTest Documentation
         // https://developer.apple.com/documentation/xctest
