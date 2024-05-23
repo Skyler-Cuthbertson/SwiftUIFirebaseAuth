@@ -34,13 +34,16 @@ public enum Configuration {
 
 @MainActor
 public final class AuthManager {
+    static let shared = AuthManager(configuration: .firebase)
+
+
     
     private let provider: AuthProvider
     
     @Published public private(set) var currentUser: AuthInfo
     private var task: Task<Void, Never>? = nil
     
-    public init(configuration: Configuration) {
+    private init(configuration: Configuration) {
         self.provider = configuration.provider
         self.currentUser = AuthInfo(profile: provider.getAuthenticatedUser())
         self.streamSignInChangesIfNeeded()
