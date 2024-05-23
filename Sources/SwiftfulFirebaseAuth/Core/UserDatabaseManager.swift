@@ -4,10 +4,6 @@ import FirebaseFirestoreSwift
 import FirebaseAuth
 
 
-
-
-
-
 final class UserManager {
     
     static let shared = UserManager()
