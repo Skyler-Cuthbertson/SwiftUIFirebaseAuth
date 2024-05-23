@@ -28,9 +28,15 @@ public struct SignInWithAppleButtonView: View {
     }
     
     public var body: some View {
-        ZStack {
-            Color.black.opacity(0.001)
-            
+        Button {
+            Task {
+                do {
+                    let (authUser, isNewUser) = try await AuthManager.shared.signInApple()
+                } catch {
+                    print("Error Apple Button: ", error)
+                }
+            } // task
+        } label: {
             SignInWithAppleButtonViewRepresentable(type: type, style: style, cornerRadius: cornerRadius)
                 .disabled(true)
                 .frame(height: height)
