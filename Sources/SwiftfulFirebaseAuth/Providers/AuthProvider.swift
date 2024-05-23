@@ -24,6 +24,8 @@ public struct UserAuthInfo: Codable {
     public let uid: String
     public let email: String?
     public let isAnonymous: Bool
+    public let isPremium: Bool
+    public let isOverride: Bool
     public let authProviders: [AuthProviderOption]
     public let displayName: String?
     public var firstName: String? = nil
@@ -37,6 +39,8 @@ public struct UserAuthInfo: Codable {
         uid: String,
         email: String? = nil,
         isAnonymous: Bool = false,
+        isPremium: Bool = false,
+        isOverride: Bool = false,
         authProviders: [AuthProviderOption] = [],
         displayName: String? = nil,
         firstName: String? = nil,
@@ -49,6 +53,8 @@ public struct UserAuthInfo: Codable {
         self.uid = uid
         self.email = email
         self.isAnonymous = isAnonymous
+        self.isPremium = isPremium
+        self.isOverride = isOverride
         self.authProviders = authProviders
         self.displayName = displayName
         self.firstName = firstName
@@ -63,6 +69,8 @@ public struct UserAuthInfo: Codable {
         self.uid = user.uid
         self.email = user.email
         self.isAnonymous = user.isAnonymous
+        self.isPremium = user.isPremium
+        self.isOverride = user.isOverride
         self.authProviders = UserAuthInfo.createAuthProviders(rawValues: user.providerData, isAnonymous: user.isAnonymous)
         self.displayName = user.displayName
         self.firstName = UserDefaults.auth.firstName
@@ -88,6 +96,8 @@ public struct UserAuthInfo: Codable {
         case uid = "user_id"
         case email = "email"
         case isAnonymous = "is_anonymous"
+        case isPremium = "isPremium"
+        case isOverride = "isOverride"
         case authProviders = "auth_providers"
         case displayName = "display_name"
         case firstName = "first_name"
