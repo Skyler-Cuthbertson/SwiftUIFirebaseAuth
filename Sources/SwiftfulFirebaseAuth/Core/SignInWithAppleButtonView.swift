@@ -12,15 +12,19 @@ public struct SignInWithAppleButtonView: View {
     public let type: ASAuthorizationAppleIDButton.ButtonType
     public let style: ASAuthorizationAppleIDButton.Style
     public let cornerRadius: CGFloat
+    public let height: CGFloat?
     
     public init(
         type: ASAuthorizationAppleIDButton.ButtonType = .signIn,
         style: ASAuthorizationAppleIDButton.Style = .black,
-        cornerRadius: CGFloat = 10
+        cornerRadius: CGFloat = 15,
+        height: CGFloat? = 55
     ) {
         self.type = type
         self.style = style
         self.cornerRadius = cornerRadius
+        self.height = height
+
     }
     
     public var body: some View {
@@ -29,6 +33,7 @@ public struct SignInWithAppleButtonView: View {
             
             SignInWithAppleButtonViewRepresentable(type: type, style: style, cornerRadius: cornerRadius)
                 .disabled(true)
+                .frame(height: height)
         }
     }
 }
