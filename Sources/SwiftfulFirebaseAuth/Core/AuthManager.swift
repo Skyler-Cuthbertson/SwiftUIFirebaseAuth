@@ -82,6 +82,7 @@ public final class AuthManager {
     
     public func signInGoogle(GIDClientID: String) async throws -> (user: UserAuthInfo, isNewUser: Bool) {
         let value = try await provider.authenticateUser_Google(GIDClientID: GIDClientID)
+        try await UserDBManager.shared.validateUserOrNew(user: value.user)
         currentUser = AuthInfo(profile: value.user)
         
         defer {
@@ -93,6 +94,7 @@ public final class AuthManager {
     
     public func signInApple() async throws -> (user: UserAuthInfo, isNewUser: Bool) {
         let value = try await provider.authenticateUser_Apple()
+        try await UserDBManager.shared.validateUserOrNew(user: value.user)
         currentUser = AuthInfo(profile: value.user)
 
         defer {
@@ -104,8 +106,9 @@ public final class AuthManager {
     
     public func signInAnonymously() async throws -> (user: UserAuthInfo, isNewUser: Bool) {
         let value = try await provider.authenticateUser_Anonymously()
+        try await UserDBManager.shared.validateUserOrNew(user: value.user)
         currentUser = AuthInfo(profile: value.user)
-        
+
         defer {
             streamSignInChangesIfNeeded()
         }
@@ -119,6 +122,7 @@ public final class AuthManager {
     
     public func signInPhone_Verify(code: String) async throws -> (user: UserAuthInfo, isNewUser: Bool) {
         let value = try await provider.authenticateUser_PhoneNumber_Verify(code: code)
+        try await UserDBManager.shared.validateUserOrNew(user: value.user)
         currentUser = AuthInfo(profile: value.user)
 
         defer {

@@ -4,24 +4,17 @@ import FirebaseFirestoreSwift
 import FirebaseAuth
 
 
-final class UserManager {
+final class UserDBManager {
     
-    static let shared = UserManager()
+    static let shared = UserDBManager()
     private init() { }
     
     private let userCollection: CollectionReference = Firestore.firestore().collection("users")
     
+    
     func userDocument(userId: String) -> DocumentReference {
         userCollection.document(userId)
     }
-    
-//    private func userFavoriteProductCollection(userId: String) -> CollectionReference {
-//        userDocument(userId: userId).collection("favorite_products")
-//    }
-//    
-//    private func userFavoriteProductDocument(userId: String, favoriteProductId: String) -> DocumentReference {
-//        userFavoriteProductCollection(userId: userId).document(favoriteProductId)
-//    }
     
     private let encoder: Firestore.Encoder = {
         let encoder = Firestore.Encoder()
@@ -34,33 +27,49 @@ final class UserManager {
     }()
     
     
-    func createNewUser(user: DBUser) async throws {
-        try userDocument(userId: user.userId).setData(from: user, merge: false)
+    func createNewUser(user: UserAuthInfo) async throws {
+        try userDocument(userId: user.uid).setData(from: user, merge: false)
     }
     
     
-    func getUser(userId: String) async throws -> DBUser {
-        try await userDocument(userId: userId).getDocument(as: DBUser.self)
+    func getUser(userId: String) async throws -> UserAuthInfo {
+        try await userDocument(userId: userId).getDocument(as: UserAuthInfo.self)
     }
     
     
     func updateUserPremiumStatus(userId: String, isPremium: Bool) async throws {
         let data: [String:Any] = [
-            DBUser.CodingKeys.isPremium.rawValue : isPremium,
+            UserAuthInfo.CodingKeys.isPremium.rawValue : isPremium,
         ]
 
         try await userDocument(userId: userId).updateData(data)
     }
     
-    func updateUserProfileImagePath(userId: String, path: String?, url: String?) async throws {
+    
+    func updateUserProfileImagePath(userId: String, url: URL?) async throws {
+        let url = url?.absoluteString
+        
         let data: [String:Any] = [
-            DBUser.CodingKeys.profileImagePath.rawValue : path ?? "",
-            DBUser.CodingKeys.profileImagePathUrl.rawValue : url ?? "",
+           
+            UserAuthInfo.CodingKeys.photoURL.rawValue : url ?? "",
         ]
 
         try await userDocument(userId: userId).updateData(data)
     }
     
+    
+    func validateUserOrNew(user: UserAuthInfo) async throws {
+        do {
+            let _ = try await self.getUser(userId: user.uid) // if successful then the user already exists
+        } catch {
+            // If failure then we need to create a new user in FB.
+            do {
+                try await self.createNewUser(user: user)
+            } catch {
+                throw error
+            }
+        }
+    } // func
  
 } // class
 

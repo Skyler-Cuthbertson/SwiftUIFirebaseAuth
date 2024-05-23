@@ -169,7 +169,11 @@ struct FirebaseAuthProvider: AuthProvider {
             throw AuthError.userNotFound
         }
         
-        try await user.delete()
+        try await user.delete() // delete the auth user
+        
+        let DBrefDoc = UserDBManager.shared.userDocument(userId: user.uid)
+        try await DBrefDoc.delete() // delete the users/user.id document
+           
     }
     
     // MARK: PRIVATE

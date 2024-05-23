@@ -69,8 +69,8 @@ public struct UserAuthInfo: Codable {
         self.uid = user.uid
         self.email = user.email
         self.isAnonymous = user.isAnonymous
-        self.isPremium = user.isPremium
-        self.isOverride = user.isOverride
+        self.isPremium = false
+        self.isOverride = false
         self.authProviders = UserAuthInfo.createAuthProviders(rawValues: user.providerData, isAnonymous: user.isAnonymous)
         self.displayName = user.displayName
         self.firstName = UserDefaults.auth.firstName
