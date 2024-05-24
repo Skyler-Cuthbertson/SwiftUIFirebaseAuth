@@ -54,14 +54,16 @@ struct FirebaseAuthProvider: AuthProvider {
 
         // Sign in to Apple account
         for try await appleResponse in helper.startSignInWithAppleFlow() {
-            
+            print("made it 77")
+
             // Convert Apple Auth to Firebase credential
             let credential = OAuthProvider.credential(
                 withProviderID: AuthProviderOption.apple.rawValue,
                 idToken: appleResponse.token,
                 rawNonce: appleResponse.nonce
             )
-            
+            print("made it 6")
+
             // Sign in to Firebase
             let authDataResult = try await signInOrLink(credential: credential)
             print("made it 3")
