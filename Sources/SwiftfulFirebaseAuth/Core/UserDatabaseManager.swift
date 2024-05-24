@@ -59,8 +59,27 @@ final class UserDBManager {
     
     
     func validateUserOrNew(user: UserAuthInfo) async throws {
+        print(user.uid)
         do {
             let _ = try await self.getUser(userId: user.uid) // if successful then the user already exists
+            do {
+                try self.userDocument(userId: user.uid).setData(from: user,
+                                                            mergeFields: [
+                                                                "auth_providers",
+                                                                "display_name",
+                                                                "email",
+                                                                "first_name",
+                                                                "isOverride",
+                                                                "isPremium",
+                                                                "is_anonymous",
+                                                                "last_name",
+                                                                "last_sign_in_date",
+                                                                "user_id"
+                                                            ]
+                )
+            } catch {
+                print(error)
+            }
         } catch {
             // If failure then we need to create a new user in FB.
             do {
