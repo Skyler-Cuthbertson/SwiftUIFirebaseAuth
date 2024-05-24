@@ -55,16 +55,3 @@ public struct SignInWithPhoneButtonView: View {
     }
 }
 
-#Preview("SignInWithGoogleButtonView") {
-    VStack {
-        SignInWithAppleButtonView()
-            .frame(height: 60)
-            .padding()
-        SignInWithGoogleButtonView()
-            .frame(height: 60)
-            .padding()
-        SignInWithPhoneButtonView()
-            .frame(height: 60)
-            .padding()
-    }
-}

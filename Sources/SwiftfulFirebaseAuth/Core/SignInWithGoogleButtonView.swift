@@ -73,8 +73,3 @@ public struct SignInWithGoogleButtonView: View {
     }
 }
 
-#Preview("SignInWithGoogleButtonView") {
-    SignInWithGoogleButtonView(backgroundColor: .googleRed)
-        .frame(height: 60)
-        .padding()
-}

@@ -65,33 +65,4 @@ fileprivate extension String {
     }
 }
 
-#Preview("SignInAnonymousButtonView") {
-    VStack {
-        SignInWithAppleButtonView()
-            .frame(height: 60)
-            .padding()
-        SignInWithGoogleButtonView()
-            .frame(height: 60)
-            .padding()
-        SignInWithPhoneButtonView()
-            .frame(height: 60)
-            .padding()
-        
-        if #available(iOS 14.0, *) {
-            SignInAnonymousButtonView(type: .signUp)
-                .frame(height: 60)
-                .padding()
-        }
-        
-        SignInAnonymousButtonView(type: .continue)
-            .frame(height: 60)
-            .padding()
 
-        SignInAnonymousButtonView(type: .signIn)
-            .frame(height: 60)
-            .padding()
-        SignInAnonymousButtonView(type: .default)
-            .frame(height: 60)
-            .padding()
-    }
-}
