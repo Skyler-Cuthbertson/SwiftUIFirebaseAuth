@@ -35,19 +35,24 @@ public struct SignInWithAppleButtonView: View {
     
     public var body: some View {
         Button {
-            Task {
-                do {
-                    let (authUser, isNewUser) = try await AuthManager.shared.signInApple()
-                } catch {
-                    print("Error Apple Button: ", error)
-                }
-            } // task
+            onSignIn()
         } label: {
             SignInWithAppleButtonViewRepresentable(type: type, style: style, cornerRadius: cornerRadius)
                 .disabled(true)
                 .frame(height: height)
         }
     }
+    
+    @MainActor
+    func onSignIn() {
+        Task {
+            do {
+                let (authUser, isNewUser) = try await AuthManager.shared.signInApple()
+            } catch {
+                print("Error Apple Button: ", error)
+            }
+        } // task
+    } // func
 }
 
 private struct SignInWithAppleButtonViewRepresentable: UIViewRepresentable {
