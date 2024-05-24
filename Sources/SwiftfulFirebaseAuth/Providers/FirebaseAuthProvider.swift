@@ -50,7 +50,8 @@ struct FirebaseAuthProvider: AuthProvider {
     @MainActor
     func authenticateUser_Apple() async throws -> (user: UserAuthInfo, isNewUser: Bool) {
         let helper = SignInWithAppleHelper()
-        
+        print("made it 5")
+
         // Sign in to Apple account
         for try await appleResponse in helper.startSignInWithAppleFlow() {
             
@@ -63,7 +64,8 @@ struct FirebaseAuthProvider: AuthProvider {
             
             // Sign in to Firebase
             let authDataResult = try await signInOrLink(credential: credential)
-            
+            print("made it 3")
+
             var firebaserUser = authDataResult.user
             
             // Determines if this is the first time this user is being authenticated
@@ -80,7 +82,8 @@ struct FirebaseAuthProvider: AuthProvider {
                     firebaserUser = updatedUser
                 }
             }
-            
+            print("made it 4")
+
             // Convert to generic type
             let user = UserAuthInfo(user: firebaserUser)
             
