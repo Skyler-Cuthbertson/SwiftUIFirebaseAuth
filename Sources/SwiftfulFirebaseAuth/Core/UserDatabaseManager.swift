@@ -59,7 +59,6 @@ final class UserDBManager {
     
     
     func validateUserOrNew(user: UserAuthInfo) async throws {
-        print(user.uid)
         do {
             let _ = try await self.getUser(userId: user.uid) // if successful then the user already exists
             do {
@@ -69,10 +68,10 @@ final class UserDBManager {
                                                                 "display_name",
                                                                 "email",
                                                                 "first_name",
-                                                                "isOverride",
-                                                                "isPremium",
-                                                                "is_anonymous",
                                                                 "last_name",
+                                                                "phone_number",
+                                                                "photo_url",
+                                                                "is_anonymous",
                                                                 "last_sign_in_date",
                                                                 "user_id"
                                                             ]
