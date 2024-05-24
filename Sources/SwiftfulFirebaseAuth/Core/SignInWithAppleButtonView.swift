@@ -13,7 +13,7 @@ public struct SignInWithAppleButtonView: View {
     public let style: ASAuthorizationAppleIDButton.Style
     public let cornerRadius: CGFloat
     public let height: CGFloat?
-    private let action: () -> Void
+    private let onSuccess: () -> Void?
 
     
     public init(
@@ -21,14 +21,14 @@ public struct SignInWithAppleButtonView: View {
         style: ASAuthorizationAppleIDButton.Style = .black,
         cornerRadius: CGFloat = 15,
         height: CGFloat? = 55,
-        action: @escaping () -> Void
+        onSuccess: @escaping () -> Void?
 
     ) {
         self.type = type
         self.style = style
         self.cornerRadius = cornerRadius
         self.height = height
-        self.action = action
+        self.onSuccess = onSuccess
 
 
     }
@@ -48,6 +48,7 @@ public struct SignInWithAppleButtonView: View {
         Task {
             do {
                 let (authUser, isNewUser) = try await AuthManager.shared.signInApple()
+                onSuccess()
             } catch {
                 print("Error Apple Button: ", error)
             }

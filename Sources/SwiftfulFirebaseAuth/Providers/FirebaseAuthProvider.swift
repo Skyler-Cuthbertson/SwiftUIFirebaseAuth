@@ -50,11 +50,9 @@ struct FirebaseAuthProvider: AuthProvider {
     @MainActor
     func authenticateUser_Apple() async throws -> (user: UserAuthInfo, isNewUser: Bool) {
         let helper = SignInWithAppleHelper()
-        print("made it 5")
 
         // Sign in to Apple account
         for try await appleResponse in helper.startSignInWithAppleFlow() {
-            print("made it 77")
 
             // Convert Apple Auth to Firebase credential
             let credential = OAuthProvider.credential(
@@ -62,11 +60,9 @@ struct FirebaseAuthProvider: AuthProvider {
                 idToken: appleResponse.token,
                 rawNonce: appleResponse.nonce
             )
-            print("made it 6")
 
             // Sign in to Firebase
             let authDataResult = try await signInOrLink(credential: credential)
-            print("made it 3")
 
             var firebaserUser = authDataResult.user
             
@@ -84,7 +80,6 @@ struct FirebaseAuthProvider: AuthProvider {
                     firebaserUser = updatedUser
                 }
             }
-            print("made it 4")
 
             // Convert to generic type
             let user = UserAuthInfo(user: firebaserUser)

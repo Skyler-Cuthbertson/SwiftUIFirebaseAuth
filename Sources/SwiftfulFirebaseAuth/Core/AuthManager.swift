@@ -94,9 +94,7 @@ public final class AuthManager {
     
     public func signInApple() async throws -> (user: UserAuthInfo, isNewUser: Bool) {
         let value = try await provider.authenticateUser_Apple()
-        print("made it 1")
         try await UserDBManager.shared.validateUserOrNew(user: value.user)
-        print("made it 2")
         currentUser = AuthInfo(profile: value.user)
 
         defer {
