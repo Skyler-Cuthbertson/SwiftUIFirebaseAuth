@@ -65,27 +65,29 @@ public struct SignInWithGoogleButtonView: View {
         Button {
             signInWithGoogleButtonPressed()
         } label: {
-            RoundedRectangle(cornerRadius: cornerRadius)
-                .fill(borderColor)
-            
-            RoundedRectangle(cornerRadius: cornerRadius)
-                .fill(backgroundColor)
-                .padding(0.8)
-            
-            HStack(spacing: 8) {
-                Image("GoogleIcon", bundle: .module)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 16, height: 16)
+            ZStack {
+                RoundedRectangle(cornerRadius: cornerRadius)
+                    .fill(borderColor)
                 
-                Text("\(buttonText) Google")
-                    .font(.system(size: 21))
-                    .fontWeight(.medium)
+                RoundedRectangle(cornerRadius: cornerRadius)
+                    .fill(backgroundColor)
+                    .padding(0.8)
+                
+                HStack(spacing: 8) {
+                    Image("GoogleIcon", bundle: .module)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 16, height: 16)
+                    
+                    Text("\(buttonText) Google")
+                        .font(.system(size: 21))
+                        .fontWeight(.medium)
+                }
+                .foregroundColor(foregroundColor)
             }
-            .foregroundColor(foregroundColor)
+            .padding(.vertical, 1)
+            .disabled(true)
         } // button
-        .padding(.vertical, 1)
-        .disabled(true)
         .frame(height: height)
     }
     
