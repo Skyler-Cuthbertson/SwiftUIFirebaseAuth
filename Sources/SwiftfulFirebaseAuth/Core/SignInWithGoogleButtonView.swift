@@ -86,8 +86,6 @@ public struct SignInWithGoogleButtonView: View {
                 }
                 
             }
-            .padding(.vertical, 1)
-            .disabled(true)
         } // button
         .frame(height: height)
     }
