@@ -74,7 +74,7 @@ final class UserDBManager {
                                                                 "is_anonymous",
                                                                 "last_sign_in_date",
                                                                 "user_id"
-                                                            ]
+                                                            ] // not all here just certain ones i want
                 )
             } catch {
                 print(error)

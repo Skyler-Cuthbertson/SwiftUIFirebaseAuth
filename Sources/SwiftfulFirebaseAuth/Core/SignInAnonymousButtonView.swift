@@ -19,21 +19,28 @@ public struct SignInAnonymousButtonView: View {
     private var borderColor: Color
     private var buttonText: String
     private var cornerRadius: CGFloat
-    
+    private let onSuccess: () -> Void?
+
     public init(
         type: ASAuthorizationAppleIDButton.ButtonType = .signIn,
         style: ASAuthorizationAppleIDButton.Style = .black,
-        cornerRadius: CGFloat = 10
+        cornerRadius: CGFloat = 15,
+        onSuccess: @escaping () -> Void?
+
     ) {
         self.cornerRadius = cornerRadius
         self.backgroundColor = style.backgroundColor
         self.foregroundColor = style.foregroundColor
         self.borderColor = style.borderColor
         self.buttonText = type.buttonText.removingWord(" with")
+        self.onSuccess = onSuccess
+
     }
     
     public var body: some View {
-        ZStack {
+        Button {
+            signInAnonymousPressed()
+        } label: {
             RoundedRectangle(cornerRadius: cornerRadius)
                 .fill(borderColor)
             
@@ -43,9 +50,9 @@ public struct SignInAnonymousButtonView: View {
             
             HStack(spacing: 8) {
                 Image(systemName: "person.circle.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 16, height: 16)
+//                    .resizable()
+//                    .scaledToFit()
+//                    .frame(width: 16, height: 16)
                 
                 Text("\(buttonText) Anonymously")
                     .font(.system(size: 21))
@@ -53,8 +60,21 @@ public struct SignInAnonymousButtonView: View {
             }
             .foregroundColor(foregroundColor)
         }
-        .padding(.vertical, 1)
-        .disabled(true)
+
+    } // body
+    
+    @MainActor
+    func signInAnonymousPressed() {
+        Task {
+            do {
+                let (authUser, isNewUser) = try await AuthManager.shared.signInAnonymously()
+                print("Anonymous Success: ", authUser)
+                onSuccess()
+
+            } catch {
+                print("Error - Anonymous: ", error)
+            }
+        }
     }
 }
 
