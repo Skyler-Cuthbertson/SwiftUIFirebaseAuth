@@ -74,7 +74,7 @@ public struct SignInWithGoogleButtonView: View {
                     .padding(0.8)
                 
                 HStack(spacing: 8) {
-                    Image("GoogleIcon")
+                    Image("GoogleIcon", bundle: .module)
                         .resizable()
                         .scaledToFit()
                         .frame(width: 16, height: 16)
