@@ -77,7 +77,7 @@ public struct SignInWithGoogleButtonView: View {
                     Image("GoogleIcon", bundle: .module)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 16, height: 16)
+                        .frame(width: 40, height: 40)
                     
                     Text("\(buttonText) Google")
                         .font(.system(size: 21))
