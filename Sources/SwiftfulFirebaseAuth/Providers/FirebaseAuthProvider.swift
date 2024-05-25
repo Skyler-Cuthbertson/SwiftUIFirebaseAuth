@@ -32,20 +32,7 @@ struct FirebaseAuthProvider: AuthProvider {
         }
     }
     
-    @MainActor
-    func authenticateUser_Anonymously() async throws -> (user: UserAuthInfo, isNewUser: Bool) {
-        
-        // Sign in to Firebase
-        let authDataResult = try await Auth.auth().signInAnonymously()
-        
-        // Determines if this is the first time this user is being authenticated
-        let isNewUser = authDataResult.additionalUserInfo?.isNewUser ?? true
-        
-        // Convert to generic type
-        let user = UserAuthInfo(user: authDataResult.user)
-            
-        return (user, isNewUser)
-    }
+   
     
     @MainActor
     func authenticateUser_Apple() async throws -> (user: UserAuthInfo, isNewUser: Bool) {
@@ -127,38 +114,6 @@ struct FirebaseAuthProvider: AuthProvider {
         return (user, isNewUser)
     }
     
-    @MainActor
-    func authenticateUser_PhoneNumber_Start(phoneNumber: String) async throws {
-        let helper = SignInWithPhoneHelper()
-        
-        // Send code to phone number
-        let result = try await helper.startPhoneFlow(phoneNumber: phoneNumber)
-        
-        UserDefaults.auth.phoneVerificationID = result.verificationID
-    }
-    
-    @MainActor
-    func authenticateUser_PhoneNumber_Verify(code: String) async throws -> (user: UserAuthInfo, isNewUser: Bool) {
-        guard let verificationId = UserDefaults.auth.phoneVerificationID else {
-            throw AuthError.verificationIDNotFound
-        }
-        
-        // Convert phone auth to Firebase credential
-        let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationId, verificationCode: code)
-        
-        // Sign in to Firebase
-        let authDataResult = try await signInOrLink(credential: credential)
-
-        let firebaserUser = authDataResult.user
-        
-        // Determines if this is the first time this user is being authenticated
-        let isNewUser = authDataResult.additionalUserInfo?.isNewUser ?? true
-
-        // Convert to generic type
-        let user = UserAuthInfo(user: firebaserUser)
-        
-        return (user, isNewUser)
-    }
     
     func signOut() throws {
         try Auth.auth().signOut()
@@ -247,7 +202,6 @@ extension UserDefaults {
     func reset() {
         firstName = nil
         lastName = nil
-        phoneVerificationID = nil
     }
     
     var firstName: String? {
@@ -268,13 +222,5 @@ extension UserDefaults {
         }
     }
     
-    var phoneVerificationID: String? {
-        get {
-            self.value(forKey: "phone_verification_id") as? String
-        }
-        set {
-            self.setValue(newValue, forKey: "phone_verification_id")
-        }
-    }
     
 }

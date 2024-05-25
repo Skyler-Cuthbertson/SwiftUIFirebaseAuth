@@ -11,11 +11,8 @@ import FirebaseAuth
 public protocol AuthProvider {
     func getAuthenticatedUser() -> UserAuthInfo?
     func authenticationDidChangeStream() -> AsyncStream<UserAuthInfo?>
-    func authenticateUser_Anonymously() async throws -> (user: UserAuthInfo, isNewUser: Bool)
     func authenticateUser_Google(GIDClientID: String) async throws -> (user: UserAuthInfo, isNewUser: Bool)
     func authenticateUser_Apple() async throws -> (user: UserAuthInfo, isNewUser: Bool)
-    func authenticateUser_PhoneNumber_Start(phoneNumber: String) async throws
-    func authenticateUser_PhoneNumber_Verify(code: String) async throws -> (user: UserAuthInfo, isNewUser: Bool)
     func signOut() throws
     func deleteAccount() async throws
 }

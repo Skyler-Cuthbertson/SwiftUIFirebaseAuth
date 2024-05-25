@@ -105,7 +105,7 @@ final class MockAuthProvider: AuthProvider {
 
 private extension UserDefaults {
     
-    private static let MockAuthDefaults = UserDefaults(suiteName: "SwiftfulFirebaseAuth_MockDefaults") ?? .standard
+    private static let MockAuthDefaults = UserDefaults(suiteName: "SwiftfUIFirebaseAuth_MockDefaults") ?? .standard
     
     private static let userIsSignedIn_key = "mock_user_signed_in"
     static var userIsSignedIn: Bool {

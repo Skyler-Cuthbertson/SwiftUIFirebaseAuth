@@ -37,7 +37,6 @@ public final class AuthManager {
     static let shared = AuthManager(configuration: .firebase)
 
 
-    
     private let provider: AuthProvider
     
     @Published public private(set) var currentUser: AuthInfo
@@ -94,34 +93,6 @@ public final class AuthManager {
     
     public func signInApple() async throws -> (user: UserAuthInfo, isNewUser: Bool) {
         let value = try await provider.authenticateUser_Apple()
-        try await UserDBManager.shared.validateUserOrNew(user: value.user)
-        currentUser = AuthInfo(profile: value.user)
-
-        defer {
-            streamSignInChangesIfNeeded()
-        }
-        
-        return value
-    }
-    
-    public func signInAnonymously() async throws -> (user: UserAuthInfo, isNewUser: Bool) {
-        let value = try await provider.authenticateUser_Anonymously()
-        try await UserDBManager.shared.validateUserOrNew(user: value.user)
-        currentUser = AuthInfo(profile: value.user)
-
-        defer {
-            streamSignInChangesIfNeeded()
-        }
-        
-        return value
-    }
-    
-    public func signInPhone_Start(phoneNumber: String) async throws {
-        try await provider.authenticateUser_PhoneNumber_Start(phoneNumber: phoneNumber)
-    }
-    
-    public func signInPhone_Verify(code: String) async throws -> (user: UserAuthInfo, isNewUser: Bool) {
-        let value = try await provider.authenticateUser_PhoneNumber_Verify(code: code)
         try await UserDBManager.shared.validateUserOrNew(user: value.user)
         currentUser = AuthInfo(profile: value.user)
 

@@ -82,8 +82,9 @@ public struct SignInWithGoogleButtonView: View {
                     Text("\(buttonText) Google")
                         .font(.system(size: 21))
                         .fontWeight(.medium)
+                        .foregroundColor(foregroundColor)
                 }
-                .foregroundColor(foregroundColor)
+                
             }
             .padding(.vertical, 1)
             .disabled(true)
