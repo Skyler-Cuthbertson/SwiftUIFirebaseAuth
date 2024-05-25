@@ -19,12 +19,14 @@ public struct SignInAnonymousButtonView: View {
     private var borderColor: Color
     private var buttonText: String
     private var cornerRadius: CGFloat
+    private var height: CGFloat?
     private let onSuccess: () -> Void?
 
     public init(
         type: ASAuthorizationAppleIDButton.ButtonType = .signIn,
         style: ASAuthorizationAppleIDButton.Style = .black,
         cornerRadius: CGFloat = 15,
+        height: CGFloat? = 55,
         onSuccess: @escaping () -> Void?
 
     ) {
@@ -33,6 +35,7 @@ public struct SignInAnonymousButtonView: View {
         self.foregroundColor = style.foregroundColor
         self.borderColor = style.borderColor
         self.buttonText = type.buttonText.removingWord(" with")
+        self.height = height
         self.onSuccess = onSuccess
 
     }
@@ -41,24 +44,26 @@ public struct SignInAnonymousButtonView: View {
         Button {
             signInAnonymousPressed()
         } label: {
-            RoundedRectangle(cornerRadius: cornerRadius)
-                .fill(borderColor)
-            
-            RoundedRectangle(cornerRadius: cornerRadius)
-                .fill(backgroundColor)
-                .padding(0.8)
-            
-            HStack(spacing: 8) {
-                Image(systemName: "person.circle.fill")
-//                    .resizable()
-//                    .scaledToFit()
-//                    .frame(width: 16, height: 16)
+            ZStack {
+                RoundedRectangle(cornerRadius: cornerRadius)
+                    .fill(borderColor)
                 
-                Text("\(buttonText) Anonymously")
-                    .font(.system(size: 21))
-                    .fontWeight(.medium)
-            }
-            .foregroundColor(foregroundColor)
+                RoundedRectangle(cornerRadius: cornerRadius)
+                    .fill(backgroundColor)
+                    .padding(0.8)
+                
+                HStack(spacing: 8) {
+                    Image(systemName: "person.circle.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 16, height: 16)
+                    
+                    Text("\(buttonText) Anonymously")
+                        .font(.system(size: 21))
+                        .fontWeight(.medium)
+                }
+                .foregroundColor(foregroundColor)
+            } // z
         }
 
     } // body
@@ -70,7 +75,6 @@ public struct SignInAnonymousButtonView: View {
                 let (authUser, isNewUser) = try await AuthManager.shared.signInAnonymously()
                 print("Anonymous Success: ", authUser)
                 onSuccess()
-
             } catch {
                 print("Error - Anonymous: ", error)
             }
